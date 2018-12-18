@@ -62,19 +62,17 @@ export default {
       searchs: []
     }
   },
- async mounted () {
+  async mounted () {
     const searchss = this.$store.state.route.params.search
-      try {
-        let response = search.Search({
-          search: searchss
-        })
-        let temp = await response.then((res) => { return (res.data) })
-        console.log( temp)
-        this.searchs = temp.data[0]
-        console.log( this.searchs)
-      } catch (error) {
-        this.error = error.response.data.error
-      }
+    try {
+      let response = search.Search({
+        search: searchss
+      })
+      let temp = await response.then((res) => { return (res.data) })
+      this.searchs = temp.data[0]
+    } catch (error) {
+      this.error = error.response.data.error
+    }
   },
   methods: {
     async create (uuid) {

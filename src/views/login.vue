@@ -62,7 +62,9 @@ export default {
           email: this.email,
           password: this.Password
         });
+        console.log(response.data)
         if (response.data.success) {
+          this.$store.dispatch("setRole", response.data.data.role)
           this.$store.dispatch("setToken", response.data.token)
           this.$store.dispatch("setUser", response.data.data.email)
           this.$swal('สำเร็จ!', response.data.message,'success')

@@ -71,6 +71,11 @@ export default new Router({
       component: () => import('./views/viewsearch.vue')
     },
     {
+      path: '/activate/:tokens',
+      name: 'activate',
+      component: () => import('./views/activate.vue')
+    },
+    {
       path: '/viewmeetup',
       name: 'viewmeetup',
       component: () => import('./views/viewmeetup.vue')

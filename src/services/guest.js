@@ -12,5 +12,8 @@ export default{
   },
   Search (credentials) {
     return Api().post('/search', credentials)
+  },
+  Activate (tokens) {
+    return Api().get('/activate/' + tokens)
   }
 }
