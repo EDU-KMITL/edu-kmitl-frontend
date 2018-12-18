@@ -53,7 +53,6 @@
 
 <script>
 import MeetupService from '@/services/MeetupService'
-import getmeetup from '@/services/guest'
 import axios from 'axios'
 export default {
   data () {

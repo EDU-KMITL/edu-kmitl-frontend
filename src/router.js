@@ -26,17 +26,26 @@ export default new Router({
     {
       path: '/register',
       name: 'register',
-      component: register
+      component: register,
+      meta: {
+        requiresVisitor: true
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: Login
+      component: Login,
+      meta: {
+        requiresVisitor: true
+      }
     },
     {
       path: '/Tobe',
       name: 'Tobe',
-      component: () => import('./views/Tobe.vue')
+      component: () => import('./views/Tobe.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/meetup',
@@ -46,7 +55,10 @@ export default new Router({
     {
       path: '/myclassroom',
       name: 'myclassroom',
-      component: () => import('./views/myclassroom.vue')
+      component: () => import('./views/myclassroom.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/viewcourse/:viewId',
@@ -66,32 +78,54 @@ export default new Router({
     {
       path: '/managemeetup',
       name: 'managemeetup',
-      component: () => import('./views/managemeetup.vue')
+      component: () => import('./views/managemeetup.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/createmeetup',
       name: 'createmeetup',
-      component: () => import('./views/createmeetup.vue')
+      component: () => import('./views/createmeetup.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/managemeetup/edit',
       name: 'managemeetup/edit',
-      component: () => import('./views/editmeetup.vue')
+      component: () => import('./views/editmeetup.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/managecourse',
       name: 'managecourse',
-      component: () => import('./views/managecourse.vue')
+      component: () => import('./views/managecourse.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/createcourse',
       name: 'createcourse',
-      component: () => import('./views/createcourse.vue')
+      component: () => import('./views/createcourse.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/managecourse/edit',
       name: 'managecourse/edit',
-      component: () => import('./views/editcourse.vue')
+      component: () => import('./views/editcourse.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '*',
+      redirect: '/'
     }
   ]
 })

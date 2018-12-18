@@ -6,5 +6,8 @@ export default{
   },
   Coures () {
     return Api().get('/coures')
+  },
+  Coures (viewId) {
+    return Api().get('/coures/' + viewId)
   }
 }

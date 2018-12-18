@@ -8,7 +8,7 @@
       dark
     >
 
-      <v-toolbar-title>รายละเอียดคอร์ส {{title}}</v-toolbar-title>
+      <v-toolbar-title>รายละเอียดคอร์ส {{dataview.name}}</v-toolbar-title>
     </v-toolbar>
 
     <v-container
@@ -47,7 +47,7 @@
                 <br/>
                 <h3>อาจารย์ประจำวิชา: {{ professor }}</h3>
                 <br/>
-                 รายละเอียด: {{ Abstract }}
+               {{ dataview.detail }}
             </v-card-text>
             </v-card>
           </v-flex>
@@ -59,14 +59,21 @@
 </template>
 
 <script>
+import viewcourse from '@/services/guest'
 export default {
   data: () => ({
-    youtubeID: 'C2zJwxNk1OE',
-    title: 'Ai day bangkok',
-    number: '501234',
-    professor: 'mr.test',
-    Abstract: 'Lorem ipsum dolor sit amet, mel at clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.'
-  })
+    dataview: null
+  }),
+  async mounted () {
+    const viewId = this.$store.state.route.params.viewId
+    try {
+      let temp = await viewcourse.Coures(viewId).then((res) => { return res })
+      console.log(temp.data.data)
+      this.dataview = temp.data.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 </script>
 
