@@ -38,7 +38,9 @@ export default {
       try {
         const response = await CourseService.setPermission(this.$store.getters.token)
         if (response.data.success) {
+          console.log(response)
           this.$swal('สำเร็จ!', response.data.message, 'success')
+          this.$store.dispatch("setRole", 'TEACHER')
           this.$router.push({
             name: 'createcourse'
           })

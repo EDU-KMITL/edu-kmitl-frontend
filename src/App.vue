@@ -87,7 +87,15 @@
         </v-list-tile>
         <v-list-group v-if="$store.state.isUserLoggedIn"
           >
-          <v-list-tile slot="activator" to="/Tobe" v-if="$store.state.isUserLoggedIn">
+          <v-list-tile slot="activator" to="/Tobe" v-if="$store.state.isUserLoggedIn && $store.state.role != 'TEACHER'">
+          <v-list-tile-action>
+          <v-icon>school</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+          <v-list-tile-title>To Be Teacher</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+         <v-list-tile slot="activator" to="/managecourse" v-if="$store.state.isUserLoggedIn && $store.state.role == 'TEACHER' ">
           <v-list-tile-action>
           <v-icon>school</v-icon>
           </v-list-tile-action>

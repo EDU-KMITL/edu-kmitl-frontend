@@ -17,13 +17,13 @@ export default{
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/add-permission', null, config)
+    return Api().get('user/upgrade', config)
   },
-  Regis (post,token) {
+  Regis (uuid,token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/course-regis', post, config)
+    return Api().get('/user/coures/register/'+ uuid, config)
   },
   Del (post,token) {
     let config = {
