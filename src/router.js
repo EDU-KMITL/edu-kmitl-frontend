@@ -66,6 +66,11 @@ export default new Router({
       component: () => import('./views/viewcourse.vue')
     },
     {
+      path: '/viewsearch/:search',
+      name: 'viewsearch',
+      component: () => import('./views/viewsearch.vue')
+    },
+    {
       path: '/viewmeetup',
       name: 'viewmeetup',
       component: () => import('./views/viewmeetup.vue')

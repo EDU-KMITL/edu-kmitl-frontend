@@ -8,7 +8,7 @@
       dark
     >
 
-      <v-toolbar-title>รายละเอียดคอร์ส {{dataview.name}}</v-toolbar-title>
+      <v-toolbar-title>รายละเอียดคอร์ส {{ dataview.name }}</v-toolbar-title>
     </v-toolbar>
 
     <v-container
@@ -41,11 +41,9 @@
           <v-flex>
             <v-card flat>
               <v-card-text>
-             <h1> {{ title }} </h1>
+             <h1> {{ dataview.name }} </h1>
                 <br/>
-               <h3> รหัสวิชา: {{ number }} </h3>
-                <br/>
-                <h3>อาจารย์ประจำวิชา: {{ professor }}</h3>
+               <h3> รหัสวิชา: {{ dataview.uuid }} </h3>
                 <br/>
                {{ dataview.detail }}
             </v-card-text>
@@ -68,7 +66,6 @@ export default {
     const viewId = this.$store.state.route.params.viewId
     try {
       let temp = await viewcourse.Coures(viewId).then((res) => { return res })
-      console.log(temp.data.data)
       this.dataview = temp.data.data
     } catch (error) {
       console.log(error)

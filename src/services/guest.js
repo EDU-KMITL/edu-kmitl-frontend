@@ -4,10 +4,13 @@ export default{
   Meetup () {
     return Api().get('/meetup')
   },
-  Coures () {
+  Coure () {
     return Api().get('/coures')
   },
   Coures (viewId) {
     return Api().get('/coures/' + viewId)
+  },
+  Search (credentials) {
+    return Api().post('/search', credentials)
   }
 }

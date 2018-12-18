@@ -134,7 +134,14 @@
         prepend-inner-icon="search"
         label="Search"
         class="hidden-sm-and-down"
+        v-model="search"
       ></v-text-field>
+      <v-btn flat :to =" {
+              name: 'viewsearch',
+              params: {
+                search: search
+              }
+            }">Search</v-btn>
      <v-spacer></v-spacer>
      <v-toolbar-items class="hidden-sm-and-down">
        <v-btn flat to="/"
@@ -170,7 +177,8 @@
 <script>
 export default {
   data: () => ({
-    drawer: null
+    drawer: null,
+    search: ''
   }),
   props: {
     source: String
