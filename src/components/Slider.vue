@@ -20,9 +20,6 @@ export default {
           src: 'https://p-u.popcdn.net/events/covers/000/004/538/cover/2.3_cover_photo_copy.001.png?1541049777'
         },
         {
-          src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'
-        },
-        {
           src: 'https://p-u.popcdn.net/events/covers/000/004/615/cover/English_for_IT-02.jpg?1542091013'
         },
         {

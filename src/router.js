@@ -49,7 +49,7 @@ export default new Router({
       component: () => import('./views/myclassroom.vue')
     },
     {
-      path: '/viewcourse',
+      path: '/viewcourse/:viewId',
       name: 'viewcourse',
       component: () => import('./views/viewcourse.vue')
     },

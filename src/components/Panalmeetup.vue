@@ -31,8 +31,8 @@
         <v-card-title >
           <div>
             <div class="headline">{{mt.title}}</div><br>
-            <span class="grey--text">วันที่ {{mt.date}}</span><br>
-            <span class="grey--text">เวลา {{mt.time}}</span><br>
+            <span class="grey--text">วันที่ {{mt.mt_date}}</span><br>
+            <span class="grey--text">เวลา {{mt.mt_time}}</span><br>
             <span class="grey--text">สถานที่ {{mt.location}}</span><br>
             <span >รายละเอียด {{mt.detail}}</span>
           </div>
@@ -53,6 +53,7 @@
 
 <script>
 import MeetupService from '@/services/MeetupService'
+import getmeetup from '@/services/guest'
 import axios from 'axios'
 export default {
   data () {
@@ -60,44 +61,43 @@ export default {
       meetups: []
     }
   },
+  mounted () {
+    var vm = this
+    axios
+      .get('https://edu-kmitl-backend.herokuapp.com/apis/meetup')
+      .then(function (response) {
+        vm.meetups = response.data.data
+        console.log(vm.meetups)
+      }
+      )
+    console.log(vm.meetups)
+    vm.$forceUpdate()
+  },
+
   methods: {
+    async create (uuid) {
+      try {
+        const response = await MeetupService.Regis({
+          uuid: uuid
+        }, this.$store.getters.token)
+        if (response.data.success) {
+          this.$swal('สำเร็จ!', response.data.message, 'success')
+          this.$router.push({
+            name: 'myclassroom'
+          })
+        } else {
+          this.$swal('ผิดพลาด!', response.data.message, 'error')
+        }
+      } catch (error) {
+        this.error = error.response.data.error
+      }
+    },
     async getData () {
       try {
         const response = await MeetupService.getOwn(this.$store.getters.token)
         return response
       } catch (error) {
         return error
-      }
-    }
-  },
-  mounted () {
-    var vm = thi
-    axios
-      .get('https://edu-kmitl-backend.herokuapp.com//apis/meetup')
-      .then(function(response) {
-          //console.log(response.data.data)
-          vm.meetups = response.data.data
-        }
-      )
-    console.log(vm.meetups)
-    vm.$forceUpdate()
-  },
-  methods: {
-    async create(uuid) {
-      try {
-        const response = await MeetupService.Regis({
-          uuid: uuid
-        }, this.$store.getters.token);
-        if (response.data.success) {
-          this.$swal('สำเร็จ!', response.data.message,'success')
-          this.$router.push({
-            name: "myclassroom"
-          })
-        }else{
-          this.$swal('ผิดพลาด!', response.data.message,'error')
-        }
-      } catch (error) {
-        this.error = error.response.data.error
       }
     }
   }

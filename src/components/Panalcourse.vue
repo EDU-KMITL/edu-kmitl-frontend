@@ -37,7 +37,12 @@
         </v-card-title>
 
         <v-card-actions>
-          <v-btn flat to="/viewcourse">view</v-btn>
+          <v-btn flat :to =" {
+              name: 'viewcourse',
+              params: {
+                viewId: course.uuid
+              }
+            }">view</v-btn>
           <v-btn flat color="purple" @click="create(course.uuid)" v-if="$store.state.isUserLoggedIn">ลงทะเบียนเรียน</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
@@ -58,30 +63,29 @@ export default {
     }
   },
   mounted () {
-
     var vm = this
     axios
       .get('https://edu-kmitl-backend.herokuapp.com/apis/coures')
-      .then(function(response) {
-          vm.courses = response.data.data 
-        }
+      .then(function (response) {
+        vm.courses = response.data.data
+      }
       )
     console.log(vm.courses)
     vm.$forceUpdate()
   },
   methods: {
-    async create(uuid) {
+    async create (uuid) {
       try {
         const response = await CourseService.Regis({
           uuid: uuid
-        }, this.$store.getters.token);
+        }, this.$store.getters.token)
         if (response.data.success) {
-          this.$swal('สำเร็จ!', response.data.message,'success')
+          this.$swal('สำเร็จ!', response.data.message, 'success')
           this.$router.push({
-            name: "myclassroom"
+            name: 'myclassroom'
           })
-        }else{
-          this.$swal('ผิดพลาด!', response.data.message,'error')
+        } else {
+          this.$swal('ผิดพลาด!', response.data.message, 'error')
         }
       } catch (error) {
         this.error = error.response.data.error
