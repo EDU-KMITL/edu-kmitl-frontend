@@ -5,13 +5,13 @@ export default{
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/meetup-creact', meetup, config)
+    return Api().post('/user/manage/meetup/add', meetup, config)
   },
   getOwn (token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/meetup-get', null, config)
+    return Api().get('user/manage/meetup', config)
   },
   Regis (post,token) {
     let config = {
@@ -23,6 +23,6 @@ export default{
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/meetup-del', post, config)
+    return Api().post('/user/manage/meetup/delete', post, config)
   }
 }

@@ -66,19 +66,14 @@ export default {
       courses: []
     }
   },
-  mounted () {
-    let config = {
-      headers: { 'Authorization': 'bearer ' + this.$store.getters.token }
+ async mounted () {
+    try {
+      let temp = await CourseService.Courses(this.$store.getters.token).then((res) => { return res })
+      this.courses = temp.data.data
+      console.log(temp)
+    } catch (error) {
+      console.log(error)
     }
-    var vm = this
-    axios
-      .post('https://edu-kmitl-backend.herokuapp.com/apis/users/course-get', null, config)
-      .then(function(response) {
-          vm.courses = response.data.data 
-        }
-      )
-    console.log(vm.courses)
-    vm.$forceUpdate()
   },
     methods: {
     async del(uuid) {
@@ -88,8 +83,10 @@ export default {
         }, this.$store.getters.token);
         if (response.data.success) {
           this.$swal('สำเร็จ!', response.data.message,'success')
+           let temp = await CourseService.Courses(this.$store.getters.token).then((res) => { return res })
+           this.courses = temp.data.data
           this.$router.push({
-            name: "home"
+            name: 'managecourse'
           })
         }else{
           this.$swal('ผิดพลาด!', response.data.message,'error')

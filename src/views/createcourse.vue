@@ -81,6 +81,7 @@ export default {
           detail: this.Description,
           picture: this.picture
         },this.$store.getters.token);
+        console.log(response)
         if (response.data.success) {
           this.$swal('สำเร็จ!', response.data.message , 'success')
           this.$router.push({

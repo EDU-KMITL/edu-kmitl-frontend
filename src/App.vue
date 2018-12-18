@@ -161,7 +161,9 @@
          v-if="$store.state.isUserLoggedIn">My Classroom</v-btn>
        <v-btn flat to="/meetup" >Meet up</v-btn>
        <v-btn flat to="/Tobe"
-         v-if="$store.state.isUserLoggedIn">To Be Teacher</v-btn>
+         v-if="$store.state.isUserLoggedIn && $store.state.role != 'TEACHER' ">To Be Teacher</v-btn>
+      <v-btn flat to="/managecourse"
+         v-if="$store.state.isUserLoggedIn && $store.state.role == 'TEACHER' ">To Be Teacher</v-btn>
        <v-btn flat to="/register"
        v-if="!$store.state.isUserLoggedIn"
        >Register</v-btn>

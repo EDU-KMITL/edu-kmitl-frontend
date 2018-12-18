@@ -5,13 +5,13 @@ export default{
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/course-creact', course, config)
+    return Api().post('/user/manage/coures/add', course, config)
   },
-  getOwn (token) {
+  Courses (token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/course-get', null, config)
+    return Api().get('user/manage/coures', config)
   },
   setPermission (token) {
     let config = {
@@ -29,6 +29,6 @@ export default{
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/course-del', post, config)
+    return Api().post('/user/manage/coures/delete', post, config)
   }
 }

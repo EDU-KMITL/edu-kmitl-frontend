@@ -37,7 +37,7 @@
        prepend-icon="query_builder"
        name="time"
         label="เวลางาน Meetup ex.09.00-12.00 น."
-        type="text"
+        type="time"
         v-model="time"></v-text-field>
         <v-text-field
        prepend-icon="room"

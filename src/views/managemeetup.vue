@@ -48,7 +48,7 @@
 
         <v-card-actions>
           <v-btn flat to="/managemeetup/edit">แก้ไขรายละเอียด meetup</v-btn>
-           <v-btn flat color="error" >ลบ Meetup</v-btn>
+           <v-btn flat color="error" @click="del(mu.uuid)" >ลบ Meetup</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -67,30 +67,35 @@ export default {
       meetups: []
     }
   },
-  methods: {
-    async getData () {
-      try {
-        const response = await MeetupService.getOwn(this.$store.getters.token)
-        return response
-      } catch (error) {
-        return error
-      }
+ async mounted () {
+    try {
+      let temp = await MeetupService.getOwn(this.$store.getters.token).then((res) => { return res })
+      this.meetups = temp.data.data
+      console.log(temp)
+    } catch (error) {
+      console.log(error)
     }
   },
-  mounted () {
-    let config = {
-      headers: { 'Authorization': 'bearer ' + this.$store.getters.token }
-    }
-    var vm = this
-    axios
-      .post('https://edu-kmitl-backend.herokuapp.com/apis/users/meetup-get', null, config)
-      .then(function(response) {
-          //console.log(response.data.data)
-          vm.meetups = response.data.data
+    methods: {
+    async del(uuid) {
+      try {
+        const response = await MeetupService.Del({
+          uuid: uuid
+        }, this.$store.getters.token);
+        if (response.data.success) {
+          this.$swal('สำเร็จ!', response.data.message,'success')
+          let temp = await MeetupService.getOwn(this.$store.getters.token).then((res) => { return res })
+          this.meetups = temp.data.data
+          this.$router.push({
+            name: 'managemeetup'
+          })
+        }else{
+          this.$swal('ผิดพลาด!', response.data.message,'error')
         }
-      )
-    console.log(vm.meetups)
-    vm.$forceUpdate()
+      } catch (error) {
+        this.error = error.response.data.error
+      }
+    }
   }
 }
 </script>

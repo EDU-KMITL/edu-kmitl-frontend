@@ -67,12 +67,12 @@ export default {
           this.$store.dispatch("setRole", response.data.data.role)
           this.$store.dispatch("setToken", response.data.token)
           this.$store.dispatch("setUser", response.data.data.email)
-          this.$swal('สำเร็จ!', response.data.message,'success')
+          this.$swal('สำเร็จ!', response.data.message, 'success')
           this.$router.push({
-            name: "home"
+            name: 'home'
           })
-        }else{
-          this.$swal('ผิดพลาด!', response.data.message,'error')
+        } else {
+          this.$swal('ผิดพลาด!', response.data.message, 'error')
         }
       } catch (error) {
         this.error = error.response.data.error
