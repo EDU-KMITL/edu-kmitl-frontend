@@ -19,12 +19,12 @@ export default{
     }
     return Api().get('user/upgrade', config)
   },
-  Regis (uuid,token) {
+  editcourse (edit,token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().get('/user/coures/register/'+ uuid, config)
-  },
+    return Api().post('/user/manage/coures/edit', edit , config)
+  }, 
   Del (post,token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }

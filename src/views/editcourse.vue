@@ -17,85 +17,41 @@
       grey
       lighten-4
     >
-     <v-layout align-center justify-center>
+      <v-layout align-center justify-center>
     <v-flex d-flex xs12 sm6>
       <v-form>
         <v-text-field
          prepend-icon="face"
         name="title"
-        label="หัวข้อเรื่อง"
+        label="ชื่อเรื่อง"
         type="text"
-        v-model="title">
+        v-model="dataview.name">
        </v-text-field>
-      <v-text-field
-       prepend-icon="dialpad"
-       name="number"
-        label="รหัสวิชา"
-        type="text"
-        v-model="number"></v-text-field>
         <v-text-field
-       prepend-icon="perm_identity"
-       name="professor"
-        label="อาจารย์ประจำวิชา"
+         prepend-icon="add_to_photos"
+        name="picture"
+        label="ลิ้งภาพ"
         type="text"
-        v-model="professor"></v-text-field>
-        <v-text-field
-       prepend-icon="location_city"
-       name="branch"
-        label="สาขา"
-        type="text"
-        v-model="branch"></v-text-field>
-      <v-text-field
-       prepend-icon="domain"
-       name="sector"
-        label="ภาควิชา "
-        type="text"
-        v-model="sector"></v-text-field>
-      <v-text-field
-       prepend-icon="school"
-       name="faculty"
-        label="คณะ "
-        type="text"
-        v-model="faculty"></v-text-field>
-         <v-text-field
+        v-model="dataview.picture">
+       </v-text-field>
+ <!--      <v-text-field
        prepend-icon="add_to_photos"
        name="image"
         label="อัพโหลดไฟล์ภาพ"
         type="file"
         @change="onFileChange"
-        v-model="image"></v-text-field>
-        </v-form>
+        v-model="image"></v-text-field>-->
+        </v-form> 
     </v-flex>
      <v-flex d-flex xs12 sm6 >
         <v-textarea
           solo
           name="Description"
           label="รายละเอียด"
-          value="รายละเอียด: "
-          v-model="Description"
+          value= "รายละเอียด"
+          v-model="dataview.detail"
         ></v-textarea>
       </v-flex>
-     </v-layout>
-     <v-layout>
-       <form v-on:submit.prevent="addNewTodo">
-    <label for="new-todo">Link video From Youtube</label>
-    <v-text-field
-    prepend-icon="add_to_queue"
-      v-model="newTodoText"
-      id="new-todo"
-      placeholder="Add Link video"
-    ></v-text-field>
-    <v-btn color="orange darken-1" @click="addNewTodo" >Add Video</v-btn>
-  </form>
-  <ul>
-    <li
-      is="todo-item"
-      v-for="(todo, index) in todos"
-      v-bind:key="todo.id"
-      v-bind:title="todo.title"
-      v-on:remove="todos.splice(index, 1)"
-    >{{todo.title}}<br></li>
-  </ul>
      </v-layout>
      <v-layout>
       <v-card-actions>
@@ -108,41 +64,45 @@
 </template>
 
 <script>
+import viewcourse from '@/services/guest'
+import CourseService from '@/services/CourseService'
 export default {
-  data () {
-    return {
-      title: 'หัวข้อคอร์ส',
-      number: '6515',
-      professor: 'test',
-      branch: 'วิทยาคอม',
-      sector: 'วิทยาคอม',
-      faculty: 'วิทยาศาสตร์',
-      Description: 'รายละเอียดพอคราวๆเกี่ยวกับคอร์ส',
-      image: '',
-      newTodoText: '',
-      todos: [
-        {
-          id: 1,
-          title: 'link test 1'
-        },
-        {
-          id: 2,
-          title: 'link test 2'
-        }
-      ],
-      nextTodoId: 3
+  data: () => ({
+    dataview: [],
+    title: '',
+    Description: '',
+    picture: ''
+    
+  }),
+  async mounted () {
+    const uuids = this.$store.state.route.params.uuid
+    try {
+      let temp = await viewcourse.Coures(uuids).then((res) => { return res })
+      this.dataview = temp.data.data
+      console.log(dataview)
+    } catch (error) {
+      console.log(error)
     }
   },
   methods: {
-    save () {
-
-    },
-    addNewTodo: function () {
-      this.todos.push({
-        id: this.nextTodoId++,
-        title: this.newTodoText
-      })
-      this.newTodoText = ''
+    async save () {
+      try {
+        const response = await CourseService.editcourse({
+          name: document.querySelector("input[name=title]").value,
+          detail: document.querySelector("textarea[name=Description]").value,
+          picture: document.querySelector("input[name=picture]").value
+        },this.$store.getters.token);
+        console.log(response)
+        if (response.data.success) {
+          this.$swal('สำเร็จ!', response.data.message , 'success')
+          this.$router.push({
+            name: "managecourse"
+          })
+        }else{
+          this.$swal('ผิดพลาด!', response.data.message , 'error')
+        }
+        } catch (error) {
+      }
     }
   }
 }

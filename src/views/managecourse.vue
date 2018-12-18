@@ -46,7 +46,12 @@
         </v-card-title>
 
         <v-card-actions>
-          <v-btn flat to="/managecourse/edit" >แก้ไขคอร์ส</v-btn>
+          <v-btn flat :to =" {
+              name: 'managecourse/edit',
+              params: {
+                uuid: course.uuid
+              }
+            }" >แก้ไขคอร์ส</v-btn>
           <v-btn flat color="error" @click="del(course.uuid)">ลบคอร์ส</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>

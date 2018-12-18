@@ -13,11 +13,23 @@ export default{
     }
     return Api().get('user/manage/meetup', config)
   },
-  Regis (post,token) {
+  getMeetup (token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }
     }
-    return Api().post('users/meetup-regis', post, config)
+    return Api().get('user/meetup', config)
+  },
+  Register (uuid,token) {
+    let config = {
+      headers: { 'Authorization': 'bearer ' + token }
+    }
+    return Api().get('/user/meetup/register/'+ uuid, config)
+  },
+  Delmeetup (uuid,token) {
+    let config = {
+      headers: { 'Authorization': 'bearer ' + token }
+    }
+    return Api().get('user/meetup/delete/'+ uuid, config)
   },
   Del (post,token) {
     let config = {

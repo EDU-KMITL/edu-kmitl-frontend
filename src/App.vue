@@ -132,7 +132,7 @@
     </v-navigation-drawer>
     <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="indigo" dark fixed app class="orange darken-1">
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-     <v-toolbar-title style="width: 350px" class="ml-0 pl-3" >
+     <v-toolbar-title style="width: 300px" class="ml-0 pl-3" >
        Education Community KMITL
        </v-toolbar-title>
      <v-text-field

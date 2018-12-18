@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import CourseService from '@/services/CourseService'
+import UserCourseService from '@/services/UserCourseService'
 import axios from 'axios'
 export default {
   data () {
@@ -76,9 +76,7 @@ export default {
   methods: {
     async create (uuid) {
       try {
-        const response = await CourseService.Regis({
-          uuid: uuid
-        }, this.$store.getters.token)
+        const response = await UserCourseService.Register(uuid, this.$store.getters.token)
         if (response.data.success) {
           this.$swal('สำเร็จ!', response.data.message, 'success')
           this.$router.push({

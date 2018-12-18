@@ -30,7 +30,7 @@
 
         <v-card-title >
           <div>
-            <div class="headline">{{mt.title}}</div><br>
+            <div class="headline">{{mt.name}}</div><br>
             <span class="grey--text">วันที่ {{mt.mt_date}}</span><br>
             <span class="grey--text">เวลา {{mt.mt_time}}</span><br>
             <span class="grey--text">สถานที่ {{mt.location}}</span><br>
@@ -40,8 +40,7 @@
 
         <v-card-actions>
           <v-btn flat to="/viewmeetup">view</v-btn>
-          <v-btn flat v-if="$store.state.isUserLoggedIn">สนใจ</v-btn>
-          <v-btn flat color="purple" v-if="$store.state.isUserLoggedIn">เข้าร่วม</v-btn>
+          <v-btn flat color="purple" v-if="$store.state.isUserLoggedIn" @click="create(mt.uuid)">เข้าร่วม</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -76,9 +75,8 @@ export default {
   methods: {
     async create (uuid) {
       try {
-        const response = await MeetupService.Regis({
-          uuid: uuid
-        }, this.$store.getters.token)
+        const response = await MeetupService.Register(uuid, this.$store.getters.token)
+        console.log(response)
         if (response.data.success) {
           this.$swal('สำเร็จ!', response.data.message, 'success')
           this.$router.push({

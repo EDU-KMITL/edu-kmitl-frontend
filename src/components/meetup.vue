@@ -18,27 +18,29 @@
       lighten-4
     >
     <v-layout row wrap >
-    <v-flex d-flex xs12 sm4  v-for="course in courses" :key="course.title"
+    <v-flex d-flex xs12 sm4  v-for="mt in meetups" :key="mt.Meetup.name"
     >
       <v-card>
         <v-img
-          :src="course.image"
+          :src="mt.Meetup.picture"
           height="350px"
         >
         </v-img>
 
+
         <v-card-title >
           <div>
-            <div class="headline">{{course.title}}</div><br>
-            <span class="grey--text">วันที่ {{course.date}}</span><br>
-            <span class="grey--text">เวลา {{course.time}}</span><br>
-            <span class="grey--text">สถานที่ {{course.location}}</span><br>
-            <span >รายละเอียด {{course.Abstract}}</span>
+            <div class="headline">{{mt.Meetup.name}}</div><br>
+            <span class="grey--text">วันที่ {{mt.Meetup.mt_date}}</span><br>
+            <span class="grey--text">เวลา {{mt.Meetup.mt_time}}</span><br>
+            <span class="grey--text">สถานที่ {{mt.Meetup.location}}</span><br>
+            <span >รายละเอียด {{mt.Meetup.detail}}</span>
           </div>
         </v-card-title>
 
         <v-card-actions>
           <v-btn flat to="/viewmeetup">view รายละเอียด</v-btn>
+           <v-btn flat color="error" @click="Delete(mt.Meetup.uuid)">ลบ meetup</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -57,27 +59,33 @@ export default {
       meetups: []
     }
   },
-  methods: {
-    async getData () {
+async  mounted () {
       try {
-        const response = await MeetupService.getOwn(this.$store.getters.token)
-        return response
+        const response = await MeetupService.getMeetup(this.$store.getters.token).then((res) => { return res })
+        this.meetups = response.data.data
+        console.log(response.data.data)
       } catch (error) {
         return error
       }
-    }
-  },
-  mounted () {
-    var vm = this
-    axios
-      .get('http://localhost:3000/apis/mymeetup-get')
-      .then(function(response) {
-          //console.log(response.data.data)
-          vm.meetups = response.data.data
+  }, 
+  methods: {
+    async Delete(uuid) {
+      try {
+        const response = await MeetupService.Delmeetup(uuid, this.$store.getters.token);
+        if (response.data.success) {
+          this.$swal('สำเร็จ!', response.data.message,'success')
+           let temp = await MeetupService.getMeetup(this.$store.getters.token).then((res) => { return res })
+           this.meetups = temp.data.data
+          this.$router.push({
+            name: 'myclassroom'
+          })
+        }else{
+          this.$swal('ผิดพลาด!', response.data.message,'error')
         }
-      )
-    console.log(vm.meetups)
-    vm.$forceUpdate()
+      } catch (error) {
+        this.error = error.response.data.error
+      }
+    }
   }
 }
 
