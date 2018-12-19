@@ -42,7 +42,6 @@
                  รายละเอียด: {{ Abstract }}
                  <br/>
           <v-btn color="error" to="/login" v-if="!$store.state.isUserLoggedIn">กรุณา login หากสนใจหรือเข้าร่วม meetup</v-btn>
-         <v-btn color="error" to="#" v-if="$store.state.isUserLoggedIn" >สนใจ</v-btn>
          <v-btn color="error" to="#" v-if="$store.state.isUserLoggedIn" >เข้าร่วม</v-btn>
             </v-card-text>
             </v-card>

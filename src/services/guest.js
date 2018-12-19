@@ -6,6 +6,9 @@ export default{
   },
   Coure () {
     return Api().get('/coures')
+  }, 
+  Meetups (viewId) {
+    return Api().get('/meetup/' + viewId)
   },
   Coures (viewId) {
     return Api().get('/coures/' + viewId)

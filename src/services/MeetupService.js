@@ -25,6 +25,12 @@ export default{
     }
     return Api().get('/user/meetup/register/'+ uuid, config)
   },
+  editmeetup (edit,token) {
+    let config = {
+      headers: { 'Authorization': 'bearer ' + token }
+    }
+    return Api().post('/user/manage/meetup/edit', edit , config)
+  }, 
   Delmeetup (uuid,token) {
     let config = {
       headers: { 'Authorization': 'bearer ' + token }

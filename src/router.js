@@ -76,7 +76,7 @@ export default new Router({
       component: () => import('./views/activate.vue')
     },
     {
-      path: '/viewmeetup',
+      path: '/viewmeetup/:uuids',
       name: 'viewmeetup',
       component: () => import('./views/viewmeetup.vue')
     },
@@ -102,7 +102,7 @@ export default new Router({
       }
     },
     {
-      path: '/managemeetup/edit/',
+      path: '/managemeetup/edit/:uuids',
       name: 'managemeetup/edit',
       component: () => import('./views/editmeetup.vue'),
       meta: {
