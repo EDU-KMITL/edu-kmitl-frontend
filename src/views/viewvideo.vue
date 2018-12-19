@@ -21,12 +21,16 @@
      <v-flex xs7 >
         <v-card dark >
           <v-card-text>
+          <div class="video-container">
+    <div class="video-placeholder">
+      <div class="video-placeholder-cover">
         <youtube
         :video-id = "youtubeID"
-        :player-width="550"
-        :player-height="400"
         >
     </youtube>
+      </div>
+    </div>
+          </div>
     </v-card-text>
         </v-card>
       </v-flex>
@@ -76,31 +80,38 @@
 </template>
 
 <script>
+import VideoServices from '@/services/VideoServices'
 export default {
-  data: () => ({
-    youtubeID: 'C2zJwxNk1OE',
-    title: 'Ai day bangkok',
-    number: '501234',
-    professor: 'mr.test',
-    Abstract: 'Lorem ipsum dolor sit amet, mel at clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.',
-    items: [
-      { action: '15 min', headline: 'รหัสวิชา 555555', title: 'วีดีโอต่อไปที่ 1', subtitle: 'รายละเอียดวีดีโอพอเข้าใจ' },
-      { action: '2 hr', headline: 'รหัสวิชา 555555', title: 'วีดีโอต่อไปที่ 2', subtitle: 'รายละเอียดวีดีโอพอเข้าใจ' },
-      { action: '6 hr', headline: 'รหัสวิชา 555555', title: 'วีดีโอต่อไปที่ 3', subtitle: 'รายละเอียดวีดีโอพอเข้าใจ' },
-      { action: '12 hr', headline: 'รหัสวิชา 555555', title: 'วีดีโอต่อไปที่ 4', subtitle: 'รายละเอียดวีดีโอพอเข้าใจ' },
-      { action: '18hr', headline: 'รหัสวิชา 555555', title: 'วีดีโอต่อไปที่ 5', subtitle: 'รายละเอียดวีดีโอพอเข้าใจ' }
-    ]
-  }),
-  methods: {
-    nextvideo () {
-      this.$router.push({
-        name: 'viewvideo'
-      })
+  data () {
+    return {
+      video: []
     }
-  }
+  },
+  async mounted () {
+    const viewId = this.$store.state.route.params.uuid
+    try {
+      let temp = await VideoServices.Showvdo(viewId,this.$store.getters.token).then((res) => { return res })
+      this.video = temp.data.data
+      console.log(this.video)
+    } catch (error) {
+      console.log(error)
+    }
+  },
 }
 </script>
 
 <style>
-
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px; height: 0; overflow: hidden;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
 </style>

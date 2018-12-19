@@ -76,12 +76,22 @@ export default new Router({
       component: () => import('./views/activate.vue')
     },
     {
+      path: '/admin/approve/:tokens',
+      name: 'approvevdo',
+      component: () => import('./views/approvevdo.vue')
+    },
+    {
+      path: '/admin/reject/:tokens',
+      name: 'rejectvdo',
+      component: () => import('./views/rejectvdo.vue')
+    },
+    {
       path: '/viewmeetup/:uuids',
       name: 'viewmeetup',
       component: () => import('./views/viewmeetup.vue')
     },
     {
-      path: '/viewvideo',
+      path: '/viewvideo/:viewId',
       name: 'viewvideo',
       component: () => import('./views/viewvideo.vue')
     },

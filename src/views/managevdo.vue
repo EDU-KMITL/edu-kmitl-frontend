@@ -36,18 +36,23 @@
     <v-layout row wrap >
     <v-flex d-flex xs12 sm4  v-for="course in video" :key="course.name">
       <v-card>
+        <div class="video-container">
+    <div class="video-placeholder">
+      <div class="video-placeholder-cover">
          <youtube
         :video-id = "course.link"
-        :player-width="200"
-        :player-height="200"
         >
     </youtube>
-
+      </div>
+    </div>
+        </div>
         <v-card-title >
           <div>
             <div class="headline">{{course.name}}</div><br>
             <span class="grey--text">{{course.uuid}}</span><br>
-            <span >รายละเอียด {{course.detail}}</span>
+            <span >รายละเอียด {{course.detail}}</span><br>
+            <v-btn color="info">  <span >สถานะ {{course.status}}</span>
+                 </v-btn>
           </div>
         </v-card-title>
 
@@ -105,3 +110,19 @@ export default {
 }
 
 </script>
+
+<style>
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  padding-top: 30px; height: 0; overflow: hidden;
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>

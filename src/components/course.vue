@@ -37,7 +37,12 @@
         </v-card-title>
 
         <v-card-actions>
-          <v-btn flat to="/viewvideo" >เข้าห้องเรียน</v-btn>
+          <v-btn flat :to =" {
+              name: 'viewvideo',
+              params: {
+                viewId: course.Course.uuid
+              }
+            }">เข้าห้องเรียน</v-btn>
           <v-btn flat color="error" @click="Delete(course.Course.uuid)">ลบคอร์ส</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>

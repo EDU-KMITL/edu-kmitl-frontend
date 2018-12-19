@@ -39,7 +39,12 @@
         </v-card-title>
 
         <v-card-actions>
-          <v-btn flat to="/viewmeetup">view รายละเอียด</v-btn>
+          <v-btn flat :to =" {
+              name: 'viewmeetup',
+              params: {
+                uuids: mt.uuid
+              }
+            }">view รายละเอียด</v-btn>
            <v-btn flat color="error" @click="Delete(mt.Meetup.uuid)">ลบ meetup</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>

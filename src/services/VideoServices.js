@@ -12,6 +12,12 @@ export default{
       headers: { 'Authorization': 'bearer ' + token }
     }
     return Api().get('/user/manage/vdieo/'+ uuid, config)
+  },  
+  Showvdo (uuid,token) {
+    let config = {
+      headers: { 'Authorization': 'bearer ' + token }
+    }
+    return Api().get('/vdieo/'+ uuid, config)
   },
   Del (post,token) {
     let config = {
