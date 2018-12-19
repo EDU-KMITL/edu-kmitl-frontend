@@ -8,7 +8,7 @@
       dark
     >
 
-      <v-toolbar-title>My Course</v-toolbar-title>
+      <v-toolbar-title>การจัดการวีดีโอ</v-toolbar-title>
 
     </v-toolbar>
 
@@ -19,7 +19,12 @@
       lighten-4
     >
          <v-btn fab dark color="indigo"
-          to="/createcourse"
+          :to="{
+              name: 'addvdo',
+              params: {
+                uuid: this.$store.state.route.params.uuid
+              }
+            }"
           light
           medium
           absolute
@@ -29,36 +34,25 @@
       <v-icon dark>add</v-icon>
     </v-btn>
     <v-layout row wrap >
-    <v-flex d-flex xs12 sm4  v-for="course in courses" :key="course.name">
+    <v-flex d-flex xs12 sm4  v-for="course in video" :key="course.name">
       <v-card>
-        <v-img
-          :src="course.picture"
-          height="350px"
+         <youtube
+        :video-id = "course.link"
+        :player-width="200"
+        :player-height="200"
         >
-        </v-img>
+    </youtube>
 
         <v-card-title >
           <div>
             <div class="headline">{{course.name}}</div><br>
-            <span class="grey--text">รหัสวิชา {{course.uuid}}</span><br>
+            <span class="grey--text">{{course.uuid}}</span><br>
             <span >รายละเอียด {{course.detail}}</span>
           </div>
         </v-card-title>
 
         <v-card-actions>
-          <v-btn flat :to =" {
-              name: 'managecourse/edit',
-              params: {
-                uuid: course.uuid
-              }
-            }" >แก้ไขคอร์ส</v-btn>
-             <v-btn flat :to =" {
-              name: 'managevdo',
-              params: {
-                uuid: course.uuid
-              }
-            }" >จัดการวีดีโอ</v-btn>
-          <v-btn flat color="error" @click="del(course.uuid)">ลบคอร์ส</v-btn>
+          <v-btn flat color="error" @click="del(course.id)">ลบคอร์ส</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -69,35 +63,36 @@
 </template>
 
 <script>
-import CourseService from '@/services/CourseService'
+import VideoServices from '@/services/VideoServices'
 import axios from 'axios'
 export default {
   data () {
     return {
-      courses: []
+      video: []
     }
   },
- async mounted () {
+  async mounted () {
+    const viewId = this.$store.state.route.params.uuid
     try {
-      let temp = await CourseService.Courses(this.$store.getters.token).then((res) => { return res })
-      this.courses = temp.data.data
-      console.log(temp)
+      let temp = await VideoServices.Getvdo(viewId,this.$store.getters.token).then((res) => { return res })
+      this.video = temp.data.data
+      console.log(this.video)
     } catch (error) {
       console.log(error)
     }
   },
     methods: {
-    async del(uuid) {
+    async del(id) {
       try {
-        const response = await CourseService.Del({
-          uuid: uuid
+        const response = await VideoServices.Del({
+          vid: id
         }, this.$store.getters.token);
         if (response.data.success) {
           this.$swal('สำเร็จ!', response.data.message,'success')
-           let temp = await CourseService.Courses(this.$store.getters.token).then((res) => { return res })
-           this.courses = temp.data.data
+           let temp = await VideoServices.Getvdo(this.$store.state.route.params.uuid,this.$store.getters.token).then((res) => { return res })
+           this.video = temp.data.data
           this.$router.push({
-            name: 'managecourse'
+            name: 'managevdo'
           })
         }else{
           this.$swal('ผิดพลาด!', response.data.message,'error')

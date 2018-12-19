@@ -118,6 +118,22 @@ export default new Router({
       }
     },
     {
+      path: '/managevdo/:uuid',
+      name: 'managevdo',
+      component: () => import('./views/managevdo.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/managevdo/addvdo/:uuid',
+      name: 'addvdo',
+      component: () => import('./views/addvdo.vue'),
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
       path: '/createcourse',
       name: 'createcourse',
       component: () => import('./views/createcourse.vue'),
