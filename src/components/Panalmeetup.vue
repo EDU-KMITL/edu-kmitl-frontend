@@ -39,7 +39,12 @@
         </v-card-title>
 
         <v-card-actions>
-          <v-btn flat to="/viewmeetup">view</v-btn>
+          <v-btn flat :to =" {
+              name: 'viewmeetup',
+              params: {
+                uuids: mt.uuid
+              }
+            }">view</v-btn>
           <v-btn flat color="purple" v-if="$store.state.isUserLoggedIn" @click="create(mt.uuid)">เข้าร่วม</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>

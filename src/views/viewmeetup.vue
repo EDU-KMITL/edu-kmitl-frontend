@@ -19,11 +19,11 @@
     >
      <v-layout row wrap>
   <v-carousel hide-controls>
-    <v-carousel-item
-      v-for="(item,i) in items"
-      :key="i"
-      :src="item.src"
-    ></v-carousel-item>
+    <v-img
+          :src="dataviews.picture"
+          height="350px"
+        >
+        </v-img>
   </v-carousel>
   <br/>
       <v-flex xs12>
@@ -31,18 +31,18 @@
           <v-flex>
             <v-card flat>
               <v-card-text>
-             <h1> {{ title }} </h1>
+             <h1> {{ dataviews.name }} </h1>
                 <br/>
-               <h3> วันที่จัดงาน: {{ date }} </h3>
+               <h3> วันที่จัดงาน: {{ dataviews.mt_date }} </h3>
                 <br/>
-                <h3>เวลา: {{ time }}</h3>
+                <h3>เวลา: {{ dataviews.mt_time }}</h3>
                 <br/>
-                <h3>สถานที่: {{ location }}</h3>
+                <h3>สถานที่: {{ dataviews.location }}</h3>
                 <br/>
-                 รายละเอียด: {{ Abstract }}
+                 รายละเอียด: {{ dataviews.detail }}
                  <br/>
           <v-btn color="error" to="/login" v-if="!$store.state.isUserLoggedIn">กรุณา login หากสนใจหรือเข้าร่วม meetup</v-btn>
-         <v-btn color="error" to="#" v-if="$store.state.isUserLoggedIn" >เข้าร่วม</v-btn>
+         <v-btn color="error" to="#" v-if="$store.state.isUserLoggedIn" @click="create(dataviews.uuid)" >เข้าร่วม</v-btn>
             </v-card-text>
             </v-card>
           </v-flex>
@@ -54,22 +54,47 @@
 </template>
 
 <script>
+import viewcourse from '@/services/guest'
+import MeetupService from '@/services/MeetupService'
 export default {
   data: () => ({
-    title: 'ชื่องานที่จะจัด meetup2',
-    date: '01/02/2562',
-    time: '09.00 น. - 12.00 น.',
-    location: 'ศูนย์คอมพิวเตอร์ สจล.ชั้น 1',
-    Abstract: 'Lorem ipsum dolor sit amet, mel at clita quando. Te sit oratio vituperatoribus, nam ad ipsum posidonium mediocritatem, explicari dissentiunt cu mea. Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.Repudiare disputationi vim in, mollis iriure nec cu, alienum argumentum ius ad. Pri eu justo aeque torquatos.',
-    items: [
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg'
-      },
-      {
-        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg'
+    dataviews: []
+  }),  
+async mounted () {
+    const uuidss = this.$store.state.route.params.uuids
+    try {
+      let temp = await viewcourse.Meetups(uuidss).then((res) => { return res })
+      this.dataviews = temp.data.data
+      console.log(dataviews.data)
+    } catch (error) {
+      console.log(error)
+    }
+  },  methods: {
+    async create (uuid) {
+      try {
+        const response = await MeetupService.Register(uuid, this.$store.getters.token)
+        console.log(response)
+        if (response.data.success) {
+          this.$swal('สำเร็จ!', response.data.message, 'success')
+          this.$router.push({
+            name: 'myclassroom'
+          })
+        } else {
+          this.$swal('ผิดพลาด!', response.data.message, 'error')
+        }
+      } catch (error) {
+        this.error = error.response.data.error
       }
-    ]
-  })
+    },
+    async getData () {
+      try {
+        const response = await MeetupService.getOwn(this.$store.getters.token)
+        return response
+      } catch (error) {
+        return error
+      }
+    }
+  }
 }
 </script>
 

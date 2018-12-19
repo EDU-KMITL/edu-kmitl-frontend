@@ -32,7 +32,7 @@
       </div>
       </div>
          <v-btn color="error" to="/login" v-if="!$store.state.isUserLoggedIn">กรุณา login เพื่อลงเรียนคอร์ส</v-btn>
-         <v-btn color="error" to="#" v-if="$store.state.isUserLoggedIn" >ลงเรียนคอร์สนี้</v-btn>
+         <v-btn color="error" to="#" v-if="$store.state.isUserLoggedIn" @click="create(dataview.uuid)" >ลงเรียนคอร์สนี้</v-btn>
     </v-card-text>
         </v-card>
       </v-flex>
@@ -58,6 +58,7 @@
 
 <script>
 import viewcourse from '@/services/guest'
+import UserCourseService from '@/services/UserCourseService'
 export default {
   data: () => ({
     dataview: null
@@ -69,6 +70,23 @@ export default {
       this.dataview = temp.data.data
     } catch (error) {
       console.log(error)
+    }
+  },
+    methods: {
+    async create (uuid) {
+      try {
+        const response = await UserCourseService.Register(uuid, this.$store.getters.token)
+        if (response.data.success) {
+          this.$swal('สำเร็จ!', response.data.message, 'success')
+          this.$router.push({
+            name: 'myclassroom'
+          })
+        } else {
+          this.$swal('ผิดพลาด!', response.data.message, 'error')
+        }
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     }
   }
 }
